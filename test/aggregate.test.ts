@@ -102,6 +102,38 @@ describe('aggregateRows', () => {
   });
 
   /**
+   * Re-logging an album without retyping its provenance note must not erase the
+   * note. A literal last-played-wins would assign undefined over it, which is
+   * the same failure the catalog-ID rule already guards against.
+   */
+  test('keeps an earlier source when the most recent play omits one', () => {
+    const albums = aggregateRows([
+      row({ playedAt: '2026-05-01', source: 'Music Millennium used bin' }),
+      row({ playedAt: '2026-05-02' }),
+    ]);
+
+    expect(albums[0]?.source).toBe('Music Millennium used bin');
+  });
+
+  test('takes the first non-null source when the earlier play omits one', () => {
+    const albums = aggregateRows([
+      row({ playedAt: '2026-05-01' }),
+      row({ playedAt: '2026-05-02', source: 'newer' }),
+    ]);
+
+    expect(albums[0]?.source).toBe('newer');
+  });
+
+  test('leaves source undefined when no row supplies one', () => {
+    const albums = aggregateRows([
+      row({ playedAt: '2026-05-01' }),
+      row({ playedAt: '2026-05-02' }),
+    ]);
+
+    expect(albums[0]?.source).toBeUndefined();
+  });
+
+  /**
    * playedAt is date-granularity, so "last-played wins" has no meaning when two
    * plays share a date, which happens the moment you play a record and then
    * stream it the same evening. Source-file order breaks the tie: the row

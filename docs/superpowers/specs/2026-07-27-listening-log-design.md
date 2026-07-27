@@ -49,8 +49,8 @@ Private rows drop **before** aggregation. This is the one place the pipeline
 deliberately departs from `library-reads`, which filters private entries late
 (after enrichment). Here, a private row must never reach the aggregator: if it
 did, `playCount` would count plays that are meant to be invisible, and the
-last-played-wins fields (`format`, `source`, and the two IDs) could be resolved
-from a row that should not exist.
+merged fields (`format`, `source`, and the two IDs) could be resolved from a row
+that should not exist.
 
 Consequences, both specified in the vault and both tested:
 
@@ -71,8 +71,7 @@ Per-field rules when rows aggregate:
 | `format` | Last-played wins. |
 | `playedAt` | Max across aggregated rows. |
 | `playCount` | Count of aggregated rows. |
-| `source` | Last-played wins. |
-| `appleMusicAlbumId`, `discogsReleaseId` | First non-null wins; on conflict, prefer the last-played row's value. |
+| `source`, `appleMusicAlbumId`, `discogsReleaseId` | First non-null wins; on conflict, prefer the last-played row's value. |
 
 **Same-day tiebreak.** `playedAt` is date-granularity, so "last-played wins" is
 undefined whenever two rows for one album share a date. That is the common case,
