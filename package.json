@@ -1,0 +1,74 @@
+{
+  "name": "listening-log",
+  "version": "0.1.0",
+  "description": "Read a hand-maintained listening.yaml into a typed array of recent albums, enriched against the Apple Music catalog with Discogs as a fallback.",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "smoke": "node scripts/smoke.mjs",
+    "setup:branch-protection": "node scripts/branch-protection.mjs",
+    "prepublishOnly": "pnpm run check && pnpm run typecheck && pnpm run test && pnpm run build && pnpm exec publint && pnpm exec attw --pack . --profile esm-only"
+  },
+  "keywords": [
+    "apple-music",
+    "discogs",
+    "music",
+    "listening",
+    "albums",
+    "vinyl",
+    "lately"
+  ],
+  "author": "Anthony Liddle <anthony@anthonyliddle.dev> (https://anthonyliddle.dev)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anthony-liddle/listening-log.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anthony-liddle/listening-log/issues"
+  },
+  "homepage": "https://github.com/anthony-liddle/listening-log#readme",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.33.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
+    "@biomejs/biome": "2.5.4",
+    "@types/node": "^22.20.1",
+    "@vitest/coverage-v8": "^4.1.7",
+    "publint": "^0.3.21",
+    "tsdown": "^0.22.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "apple-music-developer-token": "^0.1.1",
+    "yaml": "^2.9.0"
+  }
+}

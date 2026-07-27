@@ -1,0 +1,35 @@
+# One row per album play. Newest at the top is a habit, not a requirement:
+# the package sorts by playedAt regardless.
+#
+# Required on every row: title, artist, format, playedAt.
+# Optional: appleMusicAlbumId, discogsReleaseId, source, private.
+
+- title: 'Kid A'
+  artist: 'Radiohead'
+  format: vinyl
+  playedAt: 2026-05-29
+
+# Same album, different surface, same evening. These aggregate into one entry
+# with playCount 2. Format comes from this row, because it is written later in
+# the file and the two rows share a date.
+- title: 'Kid A'
+  artist: 'Radiohead'
+  format: digital
+  playedAt: 2026-05-29
+
+# Pinning appleMusicAlbumId skips the search and goes straight to the album,
+# which is the fix when a search picks the wrong edition.
+- title: 'Damaged'
+  artist: 'Black Flag'
+  format: cassette
+  playedAt: 2026-05-28
+  appleMusicAlbumId: '1440793289'
+  discogsReleaseId: 384821
+  source: 'Music Millennium used bin'
+
+# Logged, but kept off the page. The row stays here so builds are deterministic.
+- title: 'Something Embarrassing'
+  artist: 'A Band'
+  format: digital
+  playedAt: 2026-05-27
+  private: true

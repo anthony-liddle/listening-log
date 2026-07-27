@@ -1,0 +1,54 @@
+name: Release
+
+# Publishes to npm when a GitHub Release is published. Publishing is deliberate
+# and tied to a version tag, not fired on every push. Uses npm trusted publishing
+# (OIDC): no NPM_TOKEN, no long-lived secrets.
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    # The environment name must match the npm trusted-publisher configuration.
+    environment: npm-publish
+    permissions:
+      # id-token: write lets the runner mint the OIDC token npm exchanges for
+      # short-lived publish credentials. contents: read is for checkout.
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          # Build from the exact tag the release points at, not a branch head.
+          ref: ${{ github.ref }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Re-run the core gates: a release must never ship unvalidated code.
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      # --no-git-checks because we publish from a detached tag checkout, not a
+      # branch. --provenance attaches OIDC provenance; npm validates it against
+      # the trusted-publisher config (environment + workflow) on the registry.
+      - name: Publish to npm
+        run: pnpm publish --no-git-checks --access public --provenance
