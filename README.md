@@ -1,5 +1,6 @@
 # listening-log
 
+[![npm](https://img.shields.io/npm/v/listening-log.svg)](https://www.npmjs.com/package/listening-log)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6.svg)](https://www.typescriptlang.org/)
 [![Node](https://img.shields.io/badge/Node-%3E%3D22-339933.svg)](https://nodejs.org/)
@@ -19,6 +20,9 @@ source is a file you edit by hand. The framing is "what have I been into
 lately," logged deliberately rather than captured passively.
 
 ## Install
+
+Published on npm as
+**[`listening-log`](https://www.npmjs.com/package/listening-log)**.
 
 ```sh
 pnpm add listening-log
