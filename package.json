@@ -59,13 +59,13 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
-    "@biomejs/biome": "2.5.5",
+    "@biomejs/biome": "2.5.13",
     "@types/node": "^22.20.1",
-    "@vitest/coverage-v8": "^4.1.7",
+    "@vitest/coverage-v8": "^5.0.0",
     "publint": "^0.3.21",
-    "tsdown": "^0.22.1",
+    "tsdown": "^0.23.0",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.0"
   },
   "dependencies": {
     "apple-music-developer-token": "^0.1.1",
